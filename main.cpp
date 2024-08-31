@@ -4,7 +4,6 @@ using namespace std;
 
 int main()
 {
-    cout << "hola!" << endl;
-    cout << "vector" << endl;
+    cout << "tarea en casa" << endl;
     return 0;
 }
