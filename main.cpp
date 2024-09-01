@@ -1,11 +1,11 @@
 #include <iostream>
-
+#include <list>
 using namespace std;
 
 int main()
 {
     int opcion=1;
-    cout << "bienvenido a la practica 1" << endl;
+    cout << "Bienvenido a la practica 1" << endl;
     while(opcion!=0)
     {
     cout << "seleccione una opcion: " << endl;
