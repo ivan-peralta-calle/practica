@@ -2,6 +2,13 @@
 using namespace std;
 bool EsVocal(char caracter);
 void Combinar(int cantidad);
+int CalcularMCM(int A, int B);
+int MCD(int A, int B);
+int numeroTriangular(int n);
+int contarDivisores(int num);
+void encontrarNumeroTriangular(int k);
+int MaximoPrimo(int n);
+bool esPrimo(int num);
 int main()
 {
     int opcion=1;
@@ -89,10 +96,52 @@ int main()
     case 4:
     {cout << "ejecutando el problema 4..."<< endl;
 
+        int hora, duracion;
+        cout << "Ingrese la hora (formato HHMM): ";
+        cin >> hora;
+        cout << "Ingrese la duración (formato HHMM): ";
+        cin >> duracion;
+
     }
         break;
     case 5:
     {cout << "ejecutando el problema 5..."<< endl;
+        int filas;
+
+        cout << "Ingrese un numero impar para el patron: ";
+        cin >> filas;
+
+        if (filas % 2 == 0) {
+            cout << "El numero ingresado no es impar. Por favor, ingrese un numero impar." << endl;
+            return 1;
+        }
+
+        for (int i = 1; i <= filas; i += 2) {
+
+            for (int j = (filas - i) / 2; j > 0; j--) {
+                cout << " ";
+            }
+
+            for (int k = 0; k < i; k++) {
+                cout << "*";
+            }
+            cout << endl;
+        }
+
+
+        for (int i = filas - 2; i > 0; i -= 2) {
+
+            for (int j = (filas - i) / 2; j > 0; j--) {
+                cout << " ";
+            }
+
+            for (int k = 0; k < i; k++) {
+                cout << "*";
+            }
+            cout << endl;
+        }
+
+        return 0;
 
     }
         break;
@@ -103,7 +152,27 @@ int main()
         break;
     case 7:
     {cout << "ejecutando el problema 7..."<< endl;
+        int n;
+        cout<<"ingrese un numero: ";
+        cin>>n;
 
+        int a = 1, b = 1, suma_pares = 0;
+
+        while (true) {
+            int siguiente = a + b;
+            if (siguiente >= n) break;
+
+            if (siguiente % 2 == 0) {
+                suma_pares += siguiente;
+            }
+
+            a = b;
+            b = siguiente;
+        }
+
+        cout<<"el resultado de la suma es: "<<suma_pares<<endl;
+
+        return 0;
     }
         break;
     case 8:
@@ -113,6 +182,27 @@ int main()
         break;
     case 9:
     {cout << "ejecutando el problema 9..."<< endl;
+        int N;
+        cout << "ingrese un numero entero: "<<endl;
+        cin >> N;
+
+        int suma_total = 0;
+
+        while (N > 0) {
+            int digito = N % 10;
+            int potencia = 1;
+
+            for (int i = 0; i < digito; i++) {
+                potencia *= digito;
+            }
+
+            suma_total += potencia;
+            N /= 10;
+        }
+
+        cout << "El resultado de la suma es: " << suma_total << endl;
+
+        return 0;
 
     }
         break;
@@ -123,12 +213,31 @@ int main()
         break;
     case 11:
     {cout << "ejecutando el problema 11..."<< endl;
+        int numero;
+
+        cout<<"ingrese un numero: ";
+        cin >> numero;
+
+        int mcm = 1;
+        for (int i = 2; i <= numero; ++i) {
+            mcm = CalcularMCM(mcm, i);
+        }
+        cout<<"el minimo comun multiplo es: "<<mcm<<endl;
+
+        return 0;
 
     }
         break;
     case 12:
     {cout << "ejecutando el problema 12..."<< endl;
+        int n;
+        cout << "ingrese un numero: ";
+        cin >> n;
 
+        int mayorPrimo = MaximoPrimo(n);
+        cout << "el mayor factor primo de " << n << " es: " << mayorPrimo << endl;
+
+        return 0;
     }
         break;
     case 13:
@@ -153,7 +262,13 @@ int main()
         break;
     case 17:
     {cout << "ejecutando el problema 17..."<< endl;
+        int k;
+        cout << "ingrese el numero: ";
+        cin >> k;
 
+        encontrarNumeroTriangular(k);
+
+        return 0;
     }
         break;
     default:
@@ -188,4 +303,77 @@ void Combinar(int cantidad){
     for (int i = 0; i < 10; ++i){
         cout<<dinero[i]<<":"<<numdinero[i]<<endl;
     }
+}
+int MCD(int A, int B) {
+    int C;
+    while (B != 0) {
+        C = B;
+        B = A % B;
+        A = C;
+    }
+    return A;
+}
+
+int CalcularMCM(int A, int B) {
+    return A * B / MCD(A, B);
+}
+int numeroTriangular(int n) {
+    return n * (n + 1) / 2;
+}
+
+int contarDivisores(int num) {
+    int contador = 0;
+    for (int i = 1; i * i <= num; i++) {
+        if (num % i == 0) {
+            if (i * i == num) {
+                contador += 1;
+            } else {
+                contador += 2;
+            }
+        }
+    }
+    return contador;
+}
+
+void encontrarNumeroTriangular(int k) {
+    int n = 1, triangular, divisores;
+
+    while (true) {
+        triangular = numeroTriangular(n);
+        divisores = contarDivisores(triangular);
+        if (divisores > k) {
+            cout << "El numero es: " << triangular << " que tiene " << divisores << " divisores." << endl;
+            break;
+        }
+        n++;
+    }
+}
+int MaximoPrimo(int n) {
+    int max_primo = 0;
+    while (n % 2 == 0) {
+        max_primo = 2;
+        n /= 2;
+    }
+    for (int i = 3; i * i <= n; i += 2) {
+        if (esPrimo(i)) {
+            while (n % i == 0) {
+                max_primo = i;
+                n /= i;
+            }
+        }
+    }
+    if (n > 2) {
+        max_primo = n;
+    }
+
+    return max_primo;
+}
+bool esPrimo(int num) {
+    if (num <= 1)
+        return false;
+    for (int i = 2; i * i <= num; i++) {
+        if (num % i == 0)
+            return false;
+    }
+    return true;
 }
