@@ -2,6 +2,8 @@
 using namespace std;
 bool EsVocal(char caracter);
 void Combinar(int cantidad);
+bool Primo(int numero);
+int encontrarEnesimoPrimo(int n);
 int CalcularMCM(int A, int B);
 int MCD(int A, int B);
 int numeroTriangular(int n);
@@ -95,12 +97,34 @@ int main()
         break;
     case 4:
     {cout << "ejecutando el problema 4..."<< endl;
-
-        int hora, duracion;
-        cout << "Ingrese la hora (formato HHMM): ";
-        cin >> hora;
-        cout << "Ingrese la duración (formato HHMM): ";
-        cin >> duracion;
+        int hora1;
+        cout<<"ingrese la primer hora:";
+        cin>>hora1;
+        if(hora1>=2400 || hora1%100>=60){
+            cout<<"es un tiempo invalido"<<endl;
+        }
+        else{
+            int hora2;
+            cout<<"ingrese la segunda hora:";
+            cin>>hora2;
+            if(hora2>=2400 || hora2%100>=60){
+                cout<<"es un tiempo invalido"<<endl;
+            }
+            else{
+                int horas=hora1/100+hora2/100;
+                int minutos=hora1%100+hora2%100;
+                if(minutos>=60){
+                    horas += minutos/60;
+                    minutos%=60;
+                }
+                int resultado=horas*100+minutos;
+                if(resultado>=2400 || resultado%100>=60)
+                    cout<<"la suma de los tiempos es invalida"<<endl;
+                else{
+                    cout<<"la hora es "<<resultado<<endl;
+                }
+            }
+        }
 
     }
         break;
@@ -208,7 +232,15 @@ int main()
         break;
     case 10:
     {cout << "ejecutando el problema 10..."<< endl;
+        int n;
+        cout<<"Ingrese el valor de n: ";
+        cin >> n;
 
+        int enesimoPrimo = encontrarEnesimoPrimo(n);
+
+        cout<<"El primo numero "<<n<<" es: "<<enesimoPrimo<<endl;
+
+        return 0;
     }
         break;
     case 11:
@@ -376,4 +408,30 @@ bool esPrimo(int num) {
             return false;
     }
     return true;
+}
+bool Primo(int numero) {
+    if (numero <= 1) return false;
+    if (numero == 2 || numero == 3) return true;
+    if (numero % 2 == 0 || numero % 3 == 0) return false;
+
+    for (int i = 5; i * i <= numero; i += 6) {
+        if (numero % i == 0 || numero % (i + 2) == 0) return false;
+    }
+
+    return true;
+}
+
+int encontrarEnesimoPrimo(int n) {
+    int contador = 0;
+    int numero = 2;
+
+    while (true) {
+        if (Primo(numero)) {
+            contador++;
+            if (contador == n) {
+                return numero;
+            }
+        }
+        numero++;
+    }
 }
